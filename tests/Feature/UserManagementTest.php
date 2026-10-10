@@ -81,4 +81,29 @@ class UserManagementTest extends TestCase
             'activo' => false,
         ]);
     }
+
+    public function test_authenticated_user_can_register_user_from_livewire_modal(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        Livewire::test(\App\Livewire\ListaUsuario::class)
+            ->set('modal', true)
+            ->set('name', 'Maria')
+            ->set('paterno', 'Lopez')
+            ->set('materno', 'Diaz')
+            ->set('email', 'maria.lopez@example.com')
+            ->set('direccion', 'Calle Norte 123')
+            ->set('carnet', '7654321')
+            ->set('telefono', '71112233')
+            ->call('registrarUsuario')
+            ->assertSet('modal', false)
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Maria',
+            'email' => 'maria.lopez@example.com',
+            'carnet' => '7654321',
+            'activo' => true,
+        ]);
+    }
 }

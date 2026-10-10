@@ -3,14 +3,13 @@
         <x-sidebar />
 
         <div>
-            <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6">
+            <header class="flex h-16 items-center border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6">
                 <div class="flex items-center gap-3">
                     <button type="button" @click="abierto = !abierto" class="rounded-lg p-2 text-slate-600 hover:bg-slate-100" aria-label="Abrir o cerrar menú">
                         <i class="fa-solid fa-bars" aria-hidden="true"></i>
                     </button>
                     <h1 class="text-xl font-semibold text-slate-800">Usuarios</h1>
                 </div>
-                <a href="{{ route('users.create') }}" class="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Nuevo usuario</a>
             </header>
 
             <main class="p-6 sm:p-8">

@@ -15,11 +15,27 @@
             </div>
         </div>
 
-        <p class="text-sm text-slate-500" aria-live="polite">
-            <span class="font-semibold text-slate-800">{{ $users->count() }}</span>
-            {{ $users->count() === 1 ? 'usuario encontrado' : 'usuarios encontrados' }}
-        </p>
+        <div class="flex items-center justify-between gap-3 sm:justify-end">
+            <p class="text-sm text-slate-500" aria-live="polite">
+                <span class="font-semibold text-slate-800">{{ $users->count() }}</span>
+                {{ $users->count() === 1 ? 'usuario encontrado' : 'usuarios encontrados' }}
+            </p>
+            <button
+                type="button"
+                wire:click="$set('modal', true)"
+                class="inline-flex items-center gap-2 rounded-md bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                Registrar usuario
+            </button>
+        </div>
     </div>
+
+    @if (session()->has('status'))
+        <div class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800" role="status">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         <div class="overflow-x-auto">
@@ -111,4 +127,62 @@
         </table>
         </div>
     </div>
+
+    <x-dialog-modal wire:model.live="modal" maxWidth="2xl">
+        <x-slot name="title">
+            Registrar nuevo usuario
+        </x-slot>
+
+        <x-slot name="content">
+            <form wire:submit.prevent="registrarUsuario" id="formulario-registro-usuario" class="space-y-4">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <x-label for="name" value="Nombre" />
+                        <x-input id="name" type="text" wire:model="name" autocomplete="given-name" class="mt-1 block w-full" />
+                        <x-input-error for="name" class="mt-1" />
+                    </div>
+                    <div>
+                        <x-label for="paterno" value="Apellido paterno" />
+                        <x-input id="paterno" type="text" wire:model="paterno" autocomplete="family-name" class="mt-1 block w-full" />
+                        <x-input-error for="paterno" class="mt-1" />
+                    </div>
+                    <div>
+                        <x-label for="materno" value="Apellido materno" />
+                        <x-input id="materno" type="text" wire:model="materno" class="mt-1 block w-full" />
+                        <x-input-error for="materno" class="mt-1" />
+                    </div>
+                    <div>
+                        <x-label for="email" value="Correo electrónico" />
+                        <x-input id="email" type="email" wire:model="email" autocomplete="email" class="mt-1 block w-full" />
+                        <x-input-error for="email" class="mt-1" />
+                    </div>
+                    <div>
+                        <x-label for="direccion" value="Dirección" />
+                        <x-input id="direccion" type="text" wire:model="direccion" autocomplete="street-address" class="mt-1 block w-full" />
+                        <x-input-error for="direccion" class="mt-1" />
+                    </div>
+                    <div>
+                        <x-label for="carnet" value="Carnet" />
+                        <x-input id="carnet" type="text" wire:model="carnet" class="mt-1 block w-full" />
+                        <x-input-error for="carnet" class="mt-1" />
+                    </div>
+                    <div class="sm:col-span-2">
+                        <x-label for="telefono" value="Teléfono" />
+                        <x-input id="telefono" type="tel" wire:model="telefono" autocomplete="tel" class="mt-1 block w-full" />
+                        <x-input-error for="telefono" class="mt-1" />
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="cancelarRegistro" wire:loading.attr="disabled">
+                Cancelar
+            </x-secondary-button>
+            <x-button type="submit" form="formulario-registro-usuario" class="ms-3" wire:loading.attr="disabled" wire:target="registrarUsuario">
+                <span wire:loading.remove wire:target="registrarUsuario">Registrar usuario</span>
+                <span wire:loading wire:target="registrarUsuario">Guardando...</span>
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>
