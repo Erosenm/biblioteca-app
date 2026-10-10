@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class UserManagementTest extends TestCase
@@ -64,5 +65,20 @@ class UserManagementTest extends TestCase
             ->assertRedirect(route('users.index'));
 
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    }
+
+    public function test_authenticated_user_can_toggle_another_users_status(): void
+    {
+        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create(['activo' => true]);
+
+        Livewire::test(\App\Livewire\ListaUsuario::class)
+            ->call('cambiarEstado', $user->id)
+            ->assertSee('Inactivo');
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'activo' => false,
+        ]);
     }
 }

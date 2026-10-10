@@ -10,6 +10,13 @@ class ListaUsuario extends Component
 {
     public string $buscarCarnet = '';
 
+    public function cambiarEstado(int $userId): void
+    {
+        $user = User::findOrFail($userId);
+        $user->activo = ! $user->activo;
+        $user->save();
+    }
+
     public function render(): View
     {
         $buscarCarnet = trim($this->buscarCarnet);
