@@ -58,27 +58,3 @@ npm run dev
 
 Visita <http://localhost:8000>. Regístrate en `/register` e inicia sesión para entrar al dashboard. La sección de usuarios está en `/users`.
 
-## Subir el proyecto a GitHub
-
-En GitHub, crea un repositorio vacío llamado `biblioteca-app`. No lo inicialices con README, `.gitignore` ni licencia. Desde la carpeta del proyecto ejecuta:
-
-```bash
-git init
-git add .
-git status --short
-```
-
-Antes de continuar, comprueba que `.env`, `database/database.sqlite`, `vendor` y `node_modules` no aparezcan entre los archivos preparados. Luego:
-
-```bash
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/Erosenm/biblioteca-app.git
-git push -u origin main
-```
-
-Si GitHub muestra un error de autenticación, inicia sesión mediante GitHub CLI o configura una clave SSH. No pongas contraseñas ni tokens dentro de la URL del remoto.
-
-## Para compartirlo con un compañero
-
-El repositorio incluye el código y las migraciones, no la base de datos ni las cuentas locales. Tu compañero debe seguir los pasos de instalación anteriores y crear su propio `.env`. Si el repositorio es privado, agrégalo como colaborador en GitHub; si es público, podrá clonarlo directamente.
